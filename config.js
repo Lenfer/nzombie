@@ -1,5 +1,10 @@
 exports.config = {
-	database: {}, 
+	database: {
+		host     : 'mysql.scb.vzljot',
+		user     : 'lenfer',
+		password : 'group5313',
+		database: 'zombieDB'
+	}, 
 	plugins: [
 		'ping', 
 		'http', 
