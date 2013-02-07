@@ -11,43 +11,50 @@ if(cluster.isMaster){
 	cluster.setupMaster({
 		exec : "zombie/issue_cluster.js"
 	})
-	
-	cluster.on('death', function(worker) {
-		log.warn('Worker ' + worker.pid + ' died.');
-	});
-	// Require exports
+	/**
+	 * Run all issues in workers
+	 * @param  {Array} list Issues list
+	 */
 	exports.run = function(list){
 		// inspect(list)
 		list.forEach(function(item){
-			log.info('Run issue "%s"', item.name);
-			// Run issue in WORKER
-			cluster.fork().send(item)
+			// create issue
+			var worker = cluster.fork()
+			// Send issue data
+			worker.send(item)
+			// Feedback from workers
+			worker.on('message', function(l){
+				var tp = l.tp
+				if(	tp!='info' &&
+					tp!='warn' &&
+					tp!='error'&&
+					tp!='debug'&&
+					tp!='trace'&&
+					tp!='line' &&
+					tp!='zalgo'
+				) tp = 'info'
+				log[tp](l.msg)
+			})
+
 		})
 	}	
 }else if(cluster.isWorker){
 	process.on('message', function(issue) {
 		// Init and run periodical exec issue
-		var plugin = false
 		try{
-			console.log(
-				'22:25:33 - WORK- <%s#%sx%s> - Load source.', 
-				issue.plugin, 
-				cluster.worker.id,
-				process.pid				
-			)
 			plugin = require('./../plugins/' + issue.plugin)
 		}catch(e){
-			console.error('Error on load ./../plugins/%s: %s', issue.plugin, e)
+			process.send({msg:'Error on load ./../plugins/'+issue.plugin+': '+e, tp:'error'})
 		}
+
+		(function stR(){
+			plugin.run(issue.inVars, cluster.worker.id, function(outVars){
+				// process.send({msg:outVars})
+			})
+			setTimeout(stR, issue.interval);
+		})()
 		
-		console.log(
-			'22:25:33 - WORK#%s- <%s> - answer %s', 
-			cluster.worker.id,
-			issue.plugin,  
-			plugin.run(issue.inVars, cluster.worker.id)
-		)
-
-
+		// process.send('Plugin "'+issue.plugin+'" runned')
 		//test on existence issue in DB
 		//run issue tick
 	})

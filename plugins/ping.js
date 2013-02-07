@@ -1,6 +1,4 @@
-var 
-	net = require('net'), 
-	log = require('logule').init(module, '<ping.plugin>')
+
 
 function pingTime(msg, host, port, _start){
 	console.log('[%s:%s] >> %s: %sms'.green, host, port, msg, (new Date() - _start)*1)
@@ -66,12 +64,65 @@ function start(){
 // start()
 
 
+var 
+	net = require('net'), 
+	config = {
+		name: 'Ping', 
+		version: '0.1'		
+	}
+config.prefix = '[' + config.name + ' v' + config.version + '] '
 
-exports.run = function(vars, id){
+// Send log message to master
+function log(msg, tp){
+	process.send({
+	 	msg: config.prefix + msg + config.postfix, 
+	 	tp: tp
+	})
+}
+
+
+/**
+ * Ping port and return result in ms
+ * @param  {Object} params Params for ping
+ * @param  {number} id Worker ID
+ * @return {number}    Result of ping in ms
+ */
+exports.run = function(params, id, callback){
+	var  
+		host = params[0], 
+		port = params[1]
+	config.postfix = ' ('+host+':'+port+', workerID:'+id+')'
+
 	var 
-		host = vars[0], 
-		port = vars[1]
-	// console.log('22:25:33 - WORK#%s - <ping.plugin> - %s:%s', id, host, port)
-	return 10*port
+		client  = new net.Socket(), 
+		_start  = new Date()
+	client.setTimeout(5000)
+	// callback proxy
+	function end(result){
+		callback({ping_ms: result})
+	}
+	// Start ping socket
+	client
+		.connect(port, host, function() {
+		    client.write('I am Chuck Norris!')
+		})
+		.on('data', function() {
+			var result = new Date() - _start
+			log(result+'ms')
+			callback({ping_ms: result})
+			client.destroy();
+		})
+		.on('drain', function() {
+			var result = new Date() - _start
+			log(result+'ms')
+			callback({ping_ms: result})
+			client.destroy();
+		})
+		.on('error', function(e) {
+			log(e.code, 'error')
+			callback({error: e.code})
+		})
+	
+	// return 10*port
 }
 
