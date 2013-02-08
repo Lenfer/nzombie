@@ -27,4 +27,4 @@ for (var i = 0; i < global.Zombie.issues.length; i++) {
 // Zombie want plugins brains
 Z.plugins = {}
 log.info('Run isuues i.cluster') 
-require('./issue_cluster').run(Z.issues)
+require('./pluginator').run(Z.issues)

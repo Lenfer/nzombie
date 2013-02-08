@@ -25,12 +25,13 @@ var _CEATE_TBL_ROWS = {
 	}
 }
 
-var mysql = require('mysql');
+var mysql = require('mysql'), connection
 
-var connection = false, _log  =false
-
-exports.create = function(log){
-	_log = log
+/**
+ * Connect to Database
+ * @param  {Function} callback Callback
+ */
+exports.create = function(callback){
 	connection = mysql.createConnection(global.Zombie.config.database)
 	connection.connect(function(err){
 		if(err){
@@ -38,46 +39,32 @@ exports.create = function(log){
 			process.exit()	
 		}
 		log.info('Connect to DB - OK') 
+		callback()
 	})
 	return connection
 }
 
-exports.createTblIfNotExist = function(id, fields){
+/**
+ * Check and creatge if no exist table with id name
+ * @param  {number}   id       Table name
+ * @param  {array}    fields   Array of fields name in DB
+ * @param  {Function} callback Callback function execute on DB add
+ */
+exports.createTbl = function(id, fields, callback){
+	log.info('Create table \'%s\' if not exist', id)
 	connection.query("SHOW TABLES LIKE '"+id+"'", function(err, rows){
 		if(rows.length === 0){
-			// console.log(_CEATE_TBL_ROWS.getQuery(id, fields))
 			connection.query(_CEATE_TBL_ROWS.getQuery(id, fields), function(err, rows){
-				_log.error(err)
+				log.error(err)
 				if(err) process.exit()
+				callback()
 			})
+		}else{
+			callback()
 		}
 	})
 }
 
-
 exports.insertResult = function(results, fields){
 
 }
-
-
-
-// 
-// 
-//   host     : 'mysql.scb.vzljot',
-//   user     : 'lenfer',
-//   password : 'group5313',
-//   database: 'zombieDB'
-// });
-
-// connection.connect(function(err){
-// 	if(err){
-// 		console.log(err)	
-// 	}
-// 	console.log('END')
-// 	process.exit()
-
-// });
-
-
-
-// connection.end();

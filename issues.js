@@ -6,11 +6,10 @@ exports.issues = [
 		id: 'dpRedmine80',
 		name: 'Ping redmine.scb.vzljot:80', 
 		plugin: 'ping', 
-		inVars: ['redmine.scb.vzljot', 80], 
-		outVars: ['ping_ms'], 
-		interval: 30000
+		params: ['redmine.scb.vzljot', 80],
+		interval: 5000
 	}, 
-		
+		 
 	// /**
 	//  * PING ISSUE
 	//  */
