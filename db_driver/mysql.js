@@ -81,9 +81,9 @@ exports.insertResult = function(id, res){
 }
 
 
-// exports.getAll = function(id, callback){
-// 	connection.query('SELECT * FROM ' + id + ' LIMIT 1000;', callback)
-// }
+exports.getAll = function(id, callback){
+	connection.query('SELECT * FROM ' + id + ' LIMIT 1000;', callback)
+}
 
 
 exports.getDay = function(id, callback){

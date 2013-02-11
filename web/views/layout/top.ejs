@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title><%=env.title%> v.<%=env.version%>::<%=env.section%></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">	
+	<script src="/js/libs/jquery.min.js"></script>
+</head>
+
+<body>
+	<div id="wrap">
+		<div class="navbar navbar-inverse navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="brand" href="/"><%=env.title%> v.<%=env.version%></a>
+					<div class="nav-collapse collapse" id="mainmenu">
+						<ul class="nav">
+							<li class="active"><a href="/">Home</a></li>
+							<li><a href="/charts">Charts</a></li>
+							<li><a href="/contact">Contact</a></li>
+						</ul>
+						<ul class="nav pull-right">
+							<li><a href="/singin">Singin</a></li>
+						</ul>
+					</div><!--/.nav-collapse -->
+				</div>
+			</div>
+		</div>
+
+<script>
+	$('#mainmenu li').removeClass('active')
+	$('#mainmenu a').each(function(){
+		var el = $(this)
+		if(el.attr('href').match(location.pathname)){
+			el.parent().addClass('active')
+		}
+	})
+</script>
+
+
+<div class="container" id="conteiner">
+
+<!-- START CONTEINER -->
+

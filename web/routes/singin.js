@@ -2,19 +2,19 @@
  * Init index 
  */
 exports.init = function(app){
-	app.set('section', 'Main')
-	app.get('/', indexPage.index)
+	app.set('section', 'Singin')
+	app.get('/singin', singinPage.index)
 	my.app = app
 }
 
 
 var my = {}
-var indexPage = {
+var singinPage = {
 	/*
-	* GET home page.
+	* GET singin page.
 	*/
 	index: function(req, res){ 
-		res.render('index', {
+		res.render('singin', {
 			env: my.app.settings
 		})
 	}

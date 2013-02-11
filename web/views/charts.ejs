@@ -1,0 +1,79 @@
+<% include layout/top %>
+
+<script src="/js/libs/hchart/highcharts.js"></script>
+<script src="/js/libs/hchart/modules/exporting.js"></script>
+
+<style type="text/css">
+	.graph h4{
+		margin: 0;
+		padding: 0;
+	}
+</style>
+<p>
+	<button class="btn btn-primary" type="button">Day</button>
+	<button class="btn btn-primary" type="button">Week</button>
+	<button class="btn btn-primary" type="button">Month</button>
+	<button class="btn btn-primary" type="button">Year</button>
+</p>
+
+<%for(var i=0; i<issues.length; i++){%>
+	<div id="DOM_<%=issues[i].id%>" style="height: 300px;"></div>
+<%}%>
+
+<script type="text/javascript">
+	window.onload = function(){
+		var issues = [
+			<%for(var i=0; i<issues.length; i++){%>
+				{
+					id:'<%=issues[i].id%>', 
+					name: '<%=issues[i].name%>'
+				},
+			<%}%>
+		]
+		$.each(issues, createNewChart)
+	}
+	
+	function createNewChart(num, issue){
+	    $.get('/charts/data', 
+	    	{
+	    		id: issue.id
+	    	}, 
+	    	function(data, stat, xhr){
+		    	new Highcharts.Chart({
+			        chart: {
+			            renderTo: 'DOM_'+issue.id,
+			            zoomType: 'x',
+			            spacingRight: 0
+			        },
+			        title: {text: issue.name}, 
+			        xAxis: {type: 'datetime'},
+					yAxis: {
+						title: {text: ''}, 
+						min: 0				
+					},
+			        tooltip: {
+			            shared: true,
+			            crosshairs: true
+			        },
+			        plotOptions: {
+			            area: {
+			                lineWidth: 1,
+			                marker: {enabled: false},
+			                shadow: false,
+			                threshold: null, 
+			                states: {hover: {lineWidth: 1}},
+			            }
+			        },
+
+			        series: [{
+			            type: 'area',
+			            name: 'Ping, ms',
+			            data: JSON.parse(data)
+			        }]
+			    })
+		    }
+		)
+	}
+</script>
+
+<% include layout/bottom %>

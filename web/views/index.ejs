@@ -1,23 +1,20 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <!-- <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p> -->
+<% include layout/top %>
 
-    <script src="/javascripts/jquery.min.js"></script>
-    <script src="/javascripts/hchart/highcharts.js"></script>
-	<script src="/javascripts/hchart/modules/exporting.js"></script>
-	<script src="/javascripts/charts_layout.js"></script>
-<script>
+<div class="text-center">
+	<img src="/img/zombiemon.png" alt="Zombiemon")><br>
+	<h1>This is Zombie monitor.</h1>
+	<div class="text-left">
+		<h3>Network monitoring</h3>
+		<p>The term <b>network monitoring</b> describes the use of a system that constantly monitors a <code>computer network</code> for slow or failing components and that notifies the <code>network administrator</code> (via email, SMS or other alarms) in case of outages. It is a subset of the functions involved in <code>network management</code>.</p>
+		<h3>Details</h3>
+		<p>While an <code>intrusion detection system</code> monitors a network for threats from the outside, a network monitoring system monitors the network for problems caused by overloaded and/or crashed servers, network connections or other devices.</p>
+		<p>For example, to determine the status of a webserver, monitoring software may periodically send an <code>HTTP</code> request to fetch a page. For <code>email</code> servers, a test message might be sent through <code>SMTP</code> and retrieved by <code>IMAP</code> or <code>POP3</code>.</p>
+		<p>Commonly measured metrics are <code>response time</code>, <code>availability</code> and <code>uptime</code>, although both consistency and reliability metrics are starting to gain popularity. The widespread addition of <code>WAN optimization</code> devices is having an adverse effect on most network monitoring tools -- especially when it comes to measuring accurate end-to-end response time because they limit round trip visibility.</p>
+		<p>Status request failures - such as when a connection cannot be established, it <code>times-out</code>, or the document or message cannot be retrieved - usually produce an action from the monitoring system. These actions vary -- an alarm may be sent (via <code>SMS</code>, email, etc.) to the resident <code>sysadmin</code>, automatic failover systems may be activated to remove the troubled server from duty until it can be repaired, etc.</p>
+		<p>Monitoring the performance of a <code>network</code> <code>uplink</code> is also known as <code>network traffic measurement</code>, and more software is listed there.</p>
+	</div>
 
 
+</div>
 
-</script>
-
-  </body>
-</html>
-
+<% include layout/bottom %>
