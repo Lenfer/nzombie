@@ -65,6 +65,20 @@ exports.createTbl = function(id, fields, callback){
 	})
 }
 
-exports.insertResult = function(results, fields){
+exports.insertResult = function(id, res){
+	var f = '', v = '' 
+	for(key in res){
+		f += '`'+key+'`, '
+		v += '\''+res[key]+'\', '
+	}
+	var q = 'INSERT INTO `'+ id + '` ('+f.substr(0, f.length-2)+') VALUES ('+v.substr(0, v.length-2)+');'
+	// console.log(q)
+	connection.query(q, function(err){
+		if(err) log.error(err)
+	})
+}
 
+
+exports.getAll = function(id, callback){
+	connection.query('SELECT * FROM ' + id + ';', callback)
 }

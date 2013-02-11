@@ -18,16 +18,7 @@ var
 		') ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;'
 	
 	
-/**
- * Init plugin with params
- * @param  {string}   id       ID if issue
- * @param  {Object}   db       Dabase driver object
- * @param  {Function} callback Callback run after init
- */
-exports.init = function(id, db, callback){
-	db.createTbl(id, config.fields, callback)
-}
-
+exports.fields = config.fields
 /**
  * Ping port and return result in ms
  * @param  {Object} params Params for ping
@@ -67,7 +58,7 @@ exports.run = function(params, id, callback){
 		})
 		.on('error', function(e) {
 			log.error(e.code, 'error')
-			callback({error: e.code})
+			callback({msg: e.code})
 		})
 	
 	// return 

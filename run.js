@@ -12,6 +12,6 @@ function _run(){
 	global.Zombie.issues = require('./issues.js').issues
 
 	var 
-		_zombie = require('./zombie/app')
-		// web = require('./web/app')	
+		// _zombie = require('./zombie/app')
+		web = require('./web/app')	 
 }

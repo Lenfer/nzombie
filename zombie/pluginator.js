@@ -12,11 +12,11 @@ exports.run = function(list){
 			var plugin = require('./../plugins/' + i.plugin);
 			function __pluginator__(){
 				plugin.run(i.params, i.id, function(result){
-					// log.info(result)
+					db.insertResult(i.id, result)
 					setTimeout(__pluginator__, i.interval)
 				})
 			}
-			plugin.init(i.id, db, __pluginator__)
+			db.createTbl(i.id, plugin.fields, __pluginator__)
 		})	
 	})
 }	

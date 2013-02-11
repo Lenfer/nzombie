@@ -9,6 +9,14 @@ exports.issues = [
 		params: ['redmine.scb.vzljot', 80],
 		interval: 5000
 	}, 
+
+	{
+		id: 'dpStackoverflow80',
+		name: 'Ping www.stackoverflow.comt:80', 
+		plugin: 'ping', 
+		params: ['www.stackoverflow.com', 80], 
+		interval: 5000
+	}
 		 
 	// /**
 	//  * PING ISSUE
@@ -97,12 +105,5 @@ exports.issues = [
 	// /**
 	//  * PING ISSUE
 	//  */
-	// {
-	// 	id: 'dpStackoverflow80',
-	// 	name: 'Ping www.stackoverflow.comt:80', 
-	// 	plugin: 'ping', 
-	// 	inVars: ['www.stackoverflow.com', 80], 
-	// 	outVars: ['ping_ms'], 
-	// 	interval: 10000
-	// }
+	
 ]

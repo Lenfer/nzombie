@@ -29,7 +29,9 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-app.get('/', routes.index);
+// app.get('/', routes.index);
+app.get('/ex1', routes.dpStackoverflow80);
+app.get('/ex2', routes.dpRedmine80);
 app.get('/users', user.list);
 
 http.createServer(app).listen(app.get('port'), function(){
