@@ -7,16 +7,16 @@ exports.run = function(list){
 	// Up DB Driver
 	db.create(function(){
 		// Run all issue
-		list.forEach(function(i){
-			log.info('Create & run issue \'%s\' #%s', i.name, i.id)
-			var plugin = require('./../plugins/' + i.plugin);
+		list.forEach(function(issue){
+			log.info('Create & run issue \'%s\' #%s', issue.name, issue.id)
+			var plugin = require('./../plugins/' + issue.plugin);
 			function __pluginator__(){
-				plugin.run(i.params, i.id, function(result){
-					db.insertResult(i.id, result)
-					setTimeout(__pluginator__, i.interval)
-				})
+				plugin.run(issue.params, issue.id, function(result){
+					db.insertResult(issue.id, result)
+					setTimeout(__pluginator__, issue.interval)
+				}) 
 			}
-			db.createTbl(i.id, plugin.fields, __pluginator__)
+			db.createTbl(issue.id, plugin.fields, __pluginator__)
 		})	
 	})
 }	

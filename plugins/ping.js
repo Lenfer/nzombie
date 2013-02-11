@@ -3,8 +3,7 @@ var
 	config = {
 		name: 'Ping', 
 		version: '0.1', 
-		fields: ['ping_ms'], 
-		prefix: ''
+		fields: ['ping_ms']
 	},
 	log = require('logule').init(module, '<ping '+config.version+'>'), 
 	_CEATE_TBL_ROWS = 
@@ -26,10 +25,12 @@ exports.fields = config.fields
  * @return {number}    Result of ping in ms
  */
 exports.run = function(params, id, callback){
+	// console.log(params, id)
 	var  
 		host = params[0], 
-		port = params[1]
-	config.postfix = '\t('+host+':'+port+', workerID:'+id+')'
+		port = params[1], 
+		prefix = '', 
+		postfix = '\t('+host+':'+port+', workerID:'+id+')'
 
 	var 
 		client  = new net.Socket(), 
@@ -46,13 +47,13 @@ exports.run = function(params, id, callback){
 		})
 		.on('data', function() {
 			var result = new Date() - _start
-			log.info('%s%sms%s', config.prefix, result, config.postfix)
+			log.info('%s%sms%s', prefix, result, postfix)
 			callback({ping_ms: result})
 			client.destroy();
 		})
 		.on('drain', function() {
 			var result = new Date() - _start
-			log.info('%s%sms%s', config.prefix, result, config.postfix)
+			log.info('%s%sms%s', prefix, result, postfix)
 			callback({ping_ms: result})
 			client.destroy();
 		})

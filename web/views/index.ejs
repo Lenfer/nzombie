@@ -11,55 +11,10 @@
     <script src="/javascripts/jquery.min.js"></script>
     <script src="/javascripts/hchart/highcharts.js"></script>
 	<script src="/javascripts/hchart/modules/exporting.js"></script>
-	
-	<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
-
-
+	<script src="/javascripts/charts_layout.js"></script>
 <script>
 
-$(document).ready(function() {
-    chart = new Highcharts.Chart({
-        chart: {
-            renderTo: 'container',
-            zoomType: 'x',
-            spacingRight: 20
-        },
-        title: {
-            text: '<%=dataName%>'
-        },
-        xAxis: {
-            type: 'datetime',
-            // maxZoom: 14 * 24 * 3600000, // fourteen days
-            // title: {
-            //     text: null
-            // }
-        },
-        tooltip: {
-            shared: false
-        },
-        plotOptions: {
-            area: {
-                lineWidth: 1,
-                marker: {enabled: false},
-                shadow: false,
-                threshold: null, 
-                states: {
-                        hover: {
-                            lineWidth: 1
-                        }
-                    },
-            }, 
-        },
 
-        series: [{
-            type: 'area',
-            name: 'Ping in ms',
-            // pointInterval: 24 * 3600 * 1000,
-            // pointStart: Date.UTC(2006, 0, 01),
-            data: [<%=data%>]
-        }]
-    });
-});
 
 </script>
 

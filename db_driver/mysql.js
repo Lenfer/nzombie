@@ -35,7 +35,7 @@ exports.create = function(callback){
 	connection = mysql.createConnection(global.Zombie.config.database)
 	connection.connect(function(err){
 		if(err){
-			log.error(err)
+			log.error('create %s', err)
 			process.exit()	
 		}
 		log.info('Connect to DB - OK') 
@@ -55,8 +55,10 @@ exports.createTbl = function(id, fields, callback){
 	connection.query("SHOW TABLES LIKE '"+id+"'", function(err, rows){
 		if(rows.length === 0){
 			connection.query(_CEATE_TBL_ROWS.getQuery(id, fields), function(err, rows){
-				log.error(err)
-				if(err) process.exit()
+				if(err) {
+					log.error('createTbl %s', err)
+					process.exit()
+				} 
 				callback()
 			})
 		}else{
@@ -65,7 +67,7 @@ exports.createTbl = function(id, fields, callback){
 	})
 }
 
-exports.insertResult = function(id, res){
+exports.insertResult = function(id, res){ 
 	var f = '', v = '' 
 	for(key in res){
 		f += '`'+key+'`, '
@@ -74,11 +76,16 @@ exports.insertResult = function(id, res){
 	var q = 'INSERT INTO `'+ id + '` ('+f.substr(0, f.length-2)+') VALUES ('+v.substr(0, v.length-2)+');'
 	// console.log(q)
 	connection.query(q, function(err){
-		if(err) log.error(err)
+		if(err) log.error('insertResult %s', err)
 	})
 }
 
 
-exports.getAll = function(id, callback){
-	connection.query('SELECT * FROM ' + id + ';', callback)
+// exports.getAll = function(id, callback){
+// 	connection.query('SELECT * FROM ' + id + ' LIMIT 1000;', callback)
+// }
+
+
+exports.getDay = function(id, callback){
+	connection.query('SELECT * FROM ' + id + ' LIMIT 288;', callback)
 }
